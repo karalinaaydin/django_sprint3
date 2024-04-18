@@ -11,7 +11,7 @@ class BaseModel(models.Model):
 
     is_published = models.BooleanField(
         default=True,
-        verbose_name='Опубливковано',
+        verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.'
     )
     created_at = models.DateTimeField(
@@ -34,9 +34,8 @@ class Category(BaseModel):
     slug = models.SlugField(
         unique=True,
         verbose_name='Идентификатор',
-        help_text='''Идентификатор страницы для URL; разрешены символы
-          латиницы, цифры, дефис и подчёркивание.
-          '''
+        help_text=('Идентификатор страницы для URL; разрешены символы '
+                   'латиницы, цифры, дефис и подчёркивание.')
     )
 
     class Meta:
@@ -60,7 +59,7 @@ class Location(BaseModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Post(BaseModel):
@@ -73,9 +72,8 @@ class Post(BaseModel):
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
-        help_text='''Идентификатор страницы для URL; разрешены символы
-          латиницы, цифры, дефис и подчёркивание.
-          '''
+        help_text=('Если установить дату и время в будущем — можно делать '
+                   'отложенные публикации.')
     )
     author = models.ForeignKey(
         User,
