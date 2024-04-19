@@ -5,6 +5,8 @@ from .querysets import MyQuerySet
 
 User = get_user_model()
 
+STR_LENGTH = 256
+
 
 class BaseModel(models.Model):
     """Класс базовой модели."""
@@ -27,7 +29,7 @@ class Category(BaseModel):
     """Класс категории."""
 
     title = models.CharField(
-        max_length=256,
+        max_length=STR_LENGTH,
         verbose_name='Заголовок'
     )
     description = models.TextField(verbose_name='Описание')
@@ -50,7 +52,7 @@ class Location(BaseModel):
     """Класс местоположения."""
 
     name = models.CharField(
-        max_length=256,
+        max_length=STR_LENGTH,
         verbose_name='Название места'
     )
 
@@ -66,7 +68,7 @@ class Post(BaseModel):
     """Класс публикации."""
 
     title = models.CharField(
-        max_length=256,
+        max_length=STR_LENGTH,
         verbose_name='Заголовок'
     )
     text = models.TextField(verbose_name='Текст')
@@ -79,7 +81,7 @@ class Post(BaseModel):
         User,
         on_delete=models.CASCADE,
         verbose_name='Автор публикации',
-        related_name='author_posts'
+        related_name='posts'
     )
     location = models.ForeignKey(
         'Location',
@@ -87,14 +89,14 @@ class Post(BaseModel):
         null=True,
         blank=True,
         verbose_name='Местоположение',
-        related_name='location_posts'
+        related_name='posts'
     )
     category = models.ForeignKey(
         'Category',
         on_delete=models.SET_NULL,
         null=True,
         verbose_name='Категория',
-        related_name='category_posts'
+        related_name='posts'
     )
 
     objects = MyQuerySet.as_manager()
@@ -102,6 +104,7 @@ class Post(BaseModel):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
+        ordering = ['-pub_date']
 
     def __str__(self):
         return self.title
