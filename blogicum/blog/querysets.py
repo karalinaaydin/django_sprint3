@@ -11,7 +11,7 @@ class MyQuerySet(QuerySet):
         return (self.select_related('author', 'location', 'category').filter(
             is_published=True,
             pub_date__lt=datetime.now()))
-    
+
     def category_filter(self):
         """Фильтр опубликованых категорий."""
         return (self.pub_filter().filter(
